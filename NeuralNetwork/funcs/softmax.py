@@ -17,5 +17,4 @@ def softmax(inpt):
 
     return rslt
 
-VALS = [1.3, 5.1,2.2, 0.7, 1.1 ]
-print(softmax(VALS))
+
