@@ -59,3 +59,13 @@ class Network:
                 layer += f"{j.weights} {j.bias}  "
 
             print(layer + "\n")
+
+    def frwrd_prbg(self, inpt):
+        # feed each output to the input
+
+        prev = inpt
+        for indx in range(1, self.__layers.__len__()):
+            layer = self.__layers[indx]
+            prev = layer.output(prev)
+
+        return prev

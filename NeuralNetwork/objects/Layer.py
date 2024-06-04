@@ -11,13 +11,17 @@ class Layer:
         for i in range(n):
             self.__neurons.append(Neuron([], 0))
 
-
     def count_neurons(self):
         return self.__N
 
     def get_neurons(self):
         return self.__neurons
 
+    def output(self, inpt):
+        rslt = []
+        
+        for nrn in self.__neurons:
+            rslt.append(nrn.output(inpt))
 
+        return rslt
 
-    
