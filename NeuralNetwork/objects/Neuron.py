@@ -3,7 +3,7 @@ from ..funcs import ActvFuncs
 
 
 RND = 1  # rounding
-W, B = 100, 10  # w*=W, b*=B
+W, B = 1, 1  # w*=W, b*=B
 
 
 class Neuron:
