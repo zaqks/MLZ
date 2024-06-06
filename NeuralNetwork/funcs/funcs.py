@@ -1,4 +1,4 @@
-from math import exp, log
+from math import exp, log, pow
 
 
 def softmax(inpt):
@@ -19,11 +19,14 @@ def softmax(inpt):
     return rslt
 
 
-# categorical cross entropy
-def cce(inpt, label):
-    return -log(inpt[label])
+#cost 
+def cost(out, expct):
+    rslt = 0
+    length = out.__len__()
+    
+    for i in range(length):
+        rslt += pow( expct[i] - out[i]  ,   2)
+    
 
 
-loss = cce([0.7, 0.1 , 0.2], 0)
-print(loss)
-print("bonjour")
+    return rslt

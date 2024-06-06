@@ -1,5 +1,5 @@
 from NeuralNetwork import *
-from NeuralNetwork.funcs import softmax
+from NeuralNetwork.funcs import softmax, cost
 
 INPT = [1, 4]
 # nn = Network(2, [4, 4], 2)
