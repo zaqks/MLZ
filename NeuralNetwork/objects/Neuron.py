@@ -3,6 +3,7 @@ from ..funcs import ActvFuncs
 
 
 RND = 1  # rounding
+W, B = 100, 10  # w*=W, b*=B
 
 
 class Neuron:
@@ -28,10 +29,12 @@ class Neuron:
         wghts = []
 
         for i in range(wn):
-            wghts.append(round(random(), RND))
+            wghts.append(random() * W)
+            # wghts.append(round(random(), RND) * W)
 
         self.set_weights(wghts)
-        self.set_bias(round(random(), RND))
+        self.set_bias(random() * B)
+        # self.set_bias(round(random(), RND) * B)
 
     def activation_func(self, x):
         return ActvFuncs.get(self.__actv)(x)
