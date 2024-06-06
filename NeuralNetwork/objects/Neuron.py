@@ -1,15 +1,18 @@
 from random import random
-from ..funcs.relu import relu
+from ..funcs import ActvFuncs
+
 
 RND = 1  # rounding
 
 
 class Neuron:
-    def __init__(self, weights, bias, id=-1):
+    def __init__(self, weights, bias, actv=ActvFuncs.RELU, id=-1):
         self.id = id
 
         self.weights = weights
         self.bias = bias
+
+        self.__actv = actv
 
     def set_weights(self, w):
         self.weights = w
@@ -30,10 +33,8 @@ class Neuron:
         self.set_weights(wghts)
         self.set_bias(round(random(), RND))
 
-
-
     def activation_func(self, x):
-        return relu(x)
+        return ActvFuncs.get(self.__actv)(x)
 
     def output(self, inpt):
         rslt = 0

@@ -1,1 +1,1 @@
-from .objects.Network import Network
+from .objects.Network import Network, ActvFuncs

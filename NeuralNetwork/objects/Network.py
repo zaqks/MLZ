@@ -1,4 +1,4 @@
-from .Layer import Layer
+from .Layer import Layer, ActvFuncs
 from orjson import dumps, loads
 
 
@@ -6,7 +6,7 @@ class Network:
     # specify the inpt and out layer nodes num
     # for the hidden specify a list with their ndde counts
 
-    def __init__(self, inpt, hidden, out, src=None):
+    def __init__(self, inpt, hidden, out,actv=ActvFuncs.RELU,  src=None):
         self.__inpt = inpt
         self.__hidden = hidden
         self.__out = out
@@ -15,10 +15,12 @@ class Network:
         self.__layerIndx = 0
         self.__layers = []
 
+        self.__actv = actv
+
         self.init_network(src)
 
     def add_layer(self, n):
-        self.__layers.append(Layer(n, self.__layerIndx))
+        self.__layers.append(Layer(n, self.__layerIndx, self.__actv))
         self.__layerIndx += 1
 
     def init_network(self, src=None):
@@ -49,21 +51,20 @@ class Network:
             with open(src, "rb") as f:
                 src = loads(f.read())
                 f.close()
-        
+
             for i in self.__layers:
                 layer_id = f"layer_{i.id}"
-                
-                indx = 0 
+
+                indx = 0
                 nrns = i.get_neurons()
                 for j in range(nrns.__len__()):
                     nrn = nrns[j]
 
                     neuron_id = f"neuron_{nrn.id}"
-                    
+
                     srcNrn = src[layer_id][neuron_id]
                     nrn.weights = srcNrn[0]
-                    nrn.bias =  srcNrn[1]
-
+                    nrn.bias = srcNrn[1]
 
     def show_ids(self):
         for i in self.__layers:
@@ -93,8 +94,6 @@ class Network:
             prev = layer.output(prev)
 
         return prev
-
-
 
     def export(self, filename="json/out.json"):
         rslt = {}
