@@ -1,6 +1,6 @@
 from math import exp
 
-NRM = False  # normalize
+#NRM = False  # normalize 
 
 
 def normalize(x):
