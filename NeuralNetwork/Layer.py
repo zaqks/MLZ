@@ -1,4 +1,4 @@
-from .Neuron.Neuron import Neuron
+from .Neuron import Neuron
 
 
 class Layer:
@@ -6,4 +6,4 @@ class Layer:
         self.neurons = [Neuron(n) for _ in range(m)]
 
     def get_activated_outputs(self, vals):
-        return [neuron.get_activated_output(val) for neuron in self.neurons]
+        return [neuron.get_activated_output(vals) for neuron in self.neurons]
