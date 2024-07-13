@@ -14,13 +14,10 @@ class Funcs:
         # Activation Functions
 
     def LINEAR(val):
-        print("LINEAR")
         return val
 
     def RELU(val):
-        print("RELU")
         return max(0, val)
 
     def SIGMOID(x):
-        print("SIGMOID")
         return 1 / (1 + exp(-x))

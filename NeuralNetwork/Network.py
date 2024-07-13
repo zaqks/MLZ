@@ -18,3 +18,5 @@ class Network:
             previous = layer.get_activated_outputs(previous)                        
 
         return previous
+
+    

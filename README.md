@@ -1,6 +1,7 @@
 # NeuralNetwork
 
 # TODO
-- add the ids to the neurons and layers
-- add the print func
-- add the import and export
+
+- learn how to do back probagation
+- optimize which means take the best solution
+
