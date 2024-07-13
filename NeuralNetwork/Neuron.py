@@ -1,12 +1,17 @@
 from .Funcs import Funcs
+from random import random
 
-INIT_VAL = 1
+INIT_VAL = None
 
 
 class Neuron:
     def __init__(self, wn, activation=None):
         self.weights = [INIT_VAL for _ in range(wn)]
         self.bias = INIT_VAL
+
+        if INIT_VAL == None:
+            self.weights = [random() for _ in range(wn)]
+            self.bias = random()
 
         self.INPTS_N = wn
         self.ACTIVATION = activation

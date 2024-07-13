@@ -1,7 +1,7 @@
 from NeuralNetwork import *
 from random import randrange
 
-N = 50
+N = 10
 WINS = [
     [0, 1, 2],
     [3, 4, 5],
@@ -52,14 +52,19 @@ def is_win(val):
     return False
 
 
-ntwrk = Network([9, 9,  2], NetworkFuncs.RELU)
+ntwrk = Network([9, 9, 2], NetworkFuncs.RELU)
+
+inout = InOut(ntwrk)
+# inout.import_data("data/export.json")
+
 
 COMBS = gen_combs()
 for cmb in COMBS:
     rslt = ntwrk.forward_probg(cmb)
     rslt = NetworkFuncs.SOFTMAX(rslt)
     print(cmb, rslt)
+    print(f"correct prediction: {(rslt[0] > rslt[1]) == is_win(cmb)}")
+    print("\n")
 
 
-inout = InOut(ntwrk)
-inout.export_data("data/export.json")
+# inout.export_data("data/export.json")
