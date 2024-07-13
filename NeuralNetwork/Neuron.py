@@ -4,11 +4,12 @@ INIT_VAL = 1
 
 
 class Neuron:
-    def __init__(self, wn):
+    def __init__(self, wn, activation=None):
         self.weights = [INIT_VAL for _ in range(wn)]
         self.bias = INIT_VAL
 
         self.INPTS_N = wn
+        self.ACTIVATION = activation
 
     def _get_output(self, vals):
         # VALS = vals.__len__()
@@ -29,7 +30,9 @@ class Neuron:
 
     # output
 
-    def get_activated_output(self, vals, func=Funcs.LINEAR):
+    def get_activated_output(self, vals):
+        func = self.ACTIVATION
+        if not func:
+            func = Funcs.LINEAR
 
         return func(self._get_output(vals))
-
