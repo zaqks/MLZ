@@ -23,6 +23,7 @@ class Neuron:
 
         rslt += self.bias
 
+
         return rslt
 
     # Activation Functions

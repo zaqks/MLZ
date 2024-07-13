@@ -1,7 +1,7 @@
 from NeuralNetwork import Network
 
 
-ntwrk = Network([6, 4, 2])
+ntwrk = Network([2,  1])
 
-rslt = ntwrk.forward_probg([1, 2, 3, 4, 5, 6])
+rslt = ntwrk.forward_probg([2, 3])
 print(rslt)
