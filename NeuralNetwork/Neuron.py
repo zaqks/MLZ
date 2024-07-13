@@ -1,3 +1,5 @@
+from .Funcs import Funcs
+
 INIT_VAL = 1
 
 
@@ -23,21 +25,11 @@ class Neuron:
 
         rslt += self.bias
 
-
         return rslt
-
-    # Activation Functions
-
-    def LINEAR(self, val):
-        return val
-
-    def RELU(self, val):
-        return max(0, val)
 
     # output
 
-    def get_activated_output(self, vals, func=None):
-        if not func:
-            func = self.LINEAR
+    def get_activated_output(self, vals, func=Funcs.LINEAR):
 
         return func(self._get_output(vals))
+
