@@ -25,19 +25,18 @@ class InOut:
         indx_b = 0
         indx_w = 0
 
-        for layer in self.network.layers:
-            for neuron in layer.neurons:
-                # set the bias
-                neuron.bias = BIASES[indx_b]
-                indx_b += 1
+        for neuron in self.network.get_neurons():
+            # set the bias
+            neuron.bias = BIASES[indx_b]
+            indx_b += 1
 
-                # set the weights
-                for _w in range(neuron.INPTS_N):
-                    neuron.weights[_w] = WEIGHTS[indx_w]
-                    indx_w += 1
+            # set the weights
+            for _w in range(neuron.INPTS_N):
+                neuron.weights[_w] = WEIGHTS[indx_w]
+                indx_w += 1
 
     def export_data(self, path="export.json"):
-        NEURONS = [nrn for lyr in self.network.layers for nrn in lyr.neurons]
+        NEURONS = self.network.get_neurons()
 
         WEIGHTS = [val for nrn in NEURONS for val in nrn.weights]
         BIASES = [nrn.bias for nrn in NEURONS]

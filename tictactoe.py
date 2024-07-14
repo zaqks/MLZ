@@ -62,9 +62,11 @@ COMBS = gen_combs()
 for cmb in COMBS:
     rslt = ntwrk.forward_probg(cmb)
     rslt = NetworkFuncs.SOFTMAX(rslt)
+    #
+    print("\n")
     print(cmb, rslt)
     print(f"correct prediction: {(rslt[0] > rslt[1]) == is_win(cmb)}")
-    print("\n")
+    
 
 
 # inout.export_data("data/export.json")
