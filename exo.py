@@ -1,23 +1,16 @@
 from NeuralNetwork import Network, InOut, NetworkFuncs
 
 
-ntwrk = Network([2, 2,  1], NetworkFuncs.LINEAR)
+ntwrk = Network([2, 2,  1], NetworkFuncs.SIGMOID)
 
 io = InOut(ntwrk)
 io.import_data("exo.json")
 
 
-for i in range(4):
+for i in range(20):
 
     rslt = ntwrk.forward_propg([0.35, 0.9])
-    print(rslt)
+    ntwrk.backward_propg([0.5], rslt)
 
-    ERR = rslt[0]-0.5
-    print(f"error {ERR}\n")
-
-    ntwrk.backward_propg([0.5])
-
-    print("------------------")
-    
 
 io.export_data("exo_export.json")

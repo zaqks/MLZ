@@ -1,7 +1,8 @@
 from NeuralNetwork import *
 from random import randrange
+from COMBSGEN import CombsGen
 
-N = 10
+
 WINS = [
     [0, 1, 2],
     [3, 4, 5],
@@ -17,26 +18,19 @@ WINS = [
 
 
 def gen_combs():
-    def gen_comb():
-        win = []
+    cmbs = CombsGen([0, 1], 9)
+    cmbs.gen_perfect()
+    cmbs.gen_combs()
+    cmbs = cmbs.get_combs()
 
-        while win.__len__() < 3:
-            val = randrange(0, 9)
-            if val not in win:
-                win.append(val)
+    rslt = []
 
-        return [int(i in win) for i in range(9)]
+    for cmb in cmbs:
+        toAdd = [int(_) for _ in cmb]
+        if toAdd.count(1) == 3:
+            rslt.append(toAdd)
 
-    #
-
-    combs = []
-
-    while combs.__len__() < N:
-        val = gen_comb()
-        if val not in combs:
-            combs.append(val)
-
-    return combs
+    return rslt
 
 
 def is_win(val):
@@ -55,18 +49,40 @@ def is_win(val):
 ntwrk = Network([9, 9, 2], NetworkFuncs.RELU)
 
 inout = InOut(ntwrk)
-# inout.import_data("data/export.json")
+inout.import_data("data/export.json")
 
-
+"""
 COMBS = gen_combs()
 for cmb in COMBS:
-    rslt = ntwrk.forward_probg(cmb)
-    rslt = NetworkFuncs.SOFTMAX(rslt)
-    #
-    print("\n")
-    print(cmb, rslt)
-    print(f"correct prediction: {(rslt[0] > rslt[1]) == is_win(cmb)}")
-    
+    print(cmb)
+    rslt = ntwrk.forward_propg(cmb)
+
+    expect = [0, 1]
+    if is_win(cmb):
+        expect = [1, 0]
+
+    ntwrk.backward_propg(expect, rslt)
+
+inout.export_data("data/export.json")
+"""
 
 
-# inout.export_data("data/export.json")
+cmb = [1, 0, 1, 0, 1, 0, 0, 0, 0]
+rslt = ntwrk.forward_propg(cmb)
+
+print(cmb)
+print(rslt)
+print(f"win: {rslt[0] > rslt[1]}")
+
+
+ntwrk.backward_propg([0, 1])
+
+
+rslt = ntwrk.forward_propg(cmb)
+
+print(cmb)
+print(rslt)
+print(f"win: {rslt[0] > rslt[1]}")
+
+
+inout.export_data("data/export.json")

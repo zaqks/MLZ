@@ -1,8 +1,8 @@
 from .Funcs import Funcs
 from random import random
 
-INIT_VAL = None
-
+INIT_VAL = 1
+LEARNING_RATE = 1
 
 class Neuron:
     def __init__(self, wn, activation=None):
@@ -18,6 +18,7 @@ class Neuron:
 
         #
         self.latest_inputs = None
+        self.learning_rate = LEARNING_RATE
 
     def _get_output(self, vals):
         # VALS = vals.__len__()
@@ -57,12 +58,13 @@ class Neuron:
         ERR = self._get_output(self.latest_inputs) - expct
 
         BIAS = ERR  # bias correction
-        WEIGHTS = [ERR/i for i in self.latest_inputs]  # weight corrections
-        INPTS = [ERR/i for i in self.weights]  # inputs corrections
+        # weight corrections
+        WEIGHTS = [ERR/i if i else 0 for i in self.latest_inputs]
+        INPTS = [ERR/i if i else 0 for i in self.weights]  # inputs corrections
 
-        print(f"BIAS CORRECTION {BIAS}")
-        print(f"WEIGHTS CORRECTION {WEIGHTS}")
-        print(f"INPTS CORRECTION {INPTS}")
+        # print(f"BIAS CORRECTION {BIAS}")
+        # print(f"WEIGHTS CORRECTION {WEIGHTS}")
+        # print(f"INPTS CORRECTION {INPTS}")
 
         # get the max to see what to do
 
@@ -77,10 +79,11 @@ class Neuron:
         if not BACK:
             if BIAS > max_weight:
                 # update the bias
-                self.bias -= BIAS
+                self.bias -= BIAS*self.learning_rate
             else:
                 # update the weight
-                self.weights[WEIGHTS.index(max_weight)] -= max_weight
+                self.weights[WEIGHTS.index(
+                    max_weight)] -= max_weight*self.learning_rate
 
         else:
             inpt_indx = INPTS.index(max_inpt)
