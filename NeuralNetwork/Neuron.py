@@ -52,22 +52,16 @@ class Neuron:
     # backprop
 
     def back_prop(self, expct):
-        ERR = self.get_activated_output(self.latest_inputs) - expct
+        # ERR = self.get_activated_output(self.latest_inputs) - expct
+        ERR = self.get_output(self.latest_inputs) - expct
 
-        # weight influences
-        WEIGHTS_INF = self.latest_inputs
-        for w_i in WEIGHTS_INF:
-            w_i = ERR/w_i
+        BIAS = ERR  # bias correction
+        WEIGHTS = [ERR/i for i in self.latest_inputs]  # weight corrections
+        INPTS = [ERR/i for i in self.weights]  # inputs corrections
 
-            print(f"w_i {w_i}")
+        # get the max to see what to do
 
-        # inputs influences
-        INPTS_INF = self.weights
-        for i_i in INPTS_INF:
-            i_i = ERR/i_i
+        max_inpt = max(INPTS)
+        max_weights = max(WEIGHTS)
 
-            print(f"i_i {i_i}")
-
-        # bias influence
-        b_i = ERR
         
