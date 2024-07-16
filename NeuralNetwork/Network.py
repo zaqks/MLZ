@@ -34,4 +34,4 @@ class Network:
 
     def backward_propg(self, expct):
         for i, nrn in enumerate(self.layers[-1].get_neurons()):
-            nrn.back_prop(expct[i])
+            nrn.back_prop(expct[i], self.layers, self.layers.__len__()-1)

@@ -51,17 +51,42 @@ class Neuron:
 
     # backprop
 
-    def back_prop(self, expct):
+    def back_prop(self, expct, layers, current_layer_indx):
+        if current_layer_indx < 0:
+            return
+
         # ERR = self.get_activated_output(self.latest_inputs) - expct
-        ERR = self.get_output(self.latest_inputs) - expct
+        ERR = self._get_output(self.latest_inputs) - expct
 
         BIAS = ERR  # bias correction
         WEIGHTS = [ERR/i for i in self.latest_inputs]  # weight corrections
         INPTS = [ERR/i for i in self.weights]  # inputs corrections
 
+        print(f"BIAS CORRECTION {BIAS}")
+        print(f"WEIGHTS CORRECTION {WEIGHTS}")
+        print(f"INPTS CORRECTION {INPTS}")
+
         # get the max to see what to do
 
         max_inpt = max(INPTS)
-        max_weights = max(WEIGHTS)
+        max_weight = max(WEIGHTS)
 
-        
+        # go back to the previous layer
+        # or no previous layer
+        BACK = (False not in [max_inpt > _ for _ in [
+                max_weight, BIAS]]) and current_layer_indx > 0
+
+        if not BACK:
+            if BIAS > max_weight:
+                # update the bias
+                self.bias -= BIAS
+            else:
+                # update the weight
+                self.weights[WEIGHTS.index(max_weight)] -= max_weight
+
+        else:
+            inpt_indx = INPTS.index(max_inpt)
+            target_nrn = layers[current_layer_indx -
+                                1].get_neurons()[inpt_indx]
+            target_nrn .back_prop(
+                self.latest_inputs[inpt_indx] - max_inpt, layers, current_layer_indx-1)

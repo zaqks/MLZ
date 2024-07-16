@@ -20,4 +20,4 @@ for i in range(2):
     print("------------------")
     
 
-# io.export_data("exo.json")
+io.export_data("exo_export.json")
