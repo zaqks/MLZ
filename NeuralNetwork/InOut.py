@@ -22,13 +22,11 @@ class InOut:
         WEIGHTS = data["weights"]
         BIASES = data["biases"]
 
-        indx_b = 0
         indx_w = 0
 
-        for neuron in self.network.get_neurons():
+        for indx_b,  neuron in enumerate(self.network.get_neurons()):
             # set the bias
             neuron.bias = BIASES[indx_b]
-            indx_b += 1
 
             # set the weights
             for _w in range(neuron.INPTS_N):

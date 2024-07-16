@@ -41,3 +41,11 @@ class Neuron:
             func = Funcs.LINEAR
 
         return func(self._get_output(vals))
+
+
+    # backprop
+    def back_prop(self, expct):
+        
+
+
+        pass

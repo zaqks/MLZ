@@ -8,6 +8,6 @@ class Layer:
     def get_activated_outputs(self, vals):
         return [neuron.get_activated_output(vals) for neuron in self.neurons]
 
-
     def get_neurons(self):
         return self.neurons
+
