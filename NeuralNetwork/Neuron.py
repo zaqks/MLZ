@@ -52,8 +52,6 @@ class Neuron:
     # backprop
 
     def back_prop(self, expct, layers, current_layer_indx):
-        if current_layer_indx < 0:
-            return
 
         # ERR = self.get_activated_output(self.latest_inputs) - expct
         ERR = self._get_output(self.latest_inputs) - expct

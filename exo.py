@@ -7,7 +7,7 @@ io = InOut(ntwrk)
 io.import_data("exo.json")
 
 
-for i in range(2):
+for i in range(4):
 
     rslt = ntwrk.forward_propg([0.35, 0.9])
     print(rslt)
