@@ -14,24 +14,28 @@ class InOut:
         self.network = network
 
     def import_data(self, path="import.json"):
-        with open(path, "rb") as f:
-            data = loads(f.read())
-            f.close()
+        try:
+            with open(path, "rb") as f:
+                data = loads(f.read())
+                f.close()
 
-        #
-        WEIGHTS = data["weights"]
-        BIASES = data["biases"]
+            #
+            WEIGHTS = data["weights"]
+            BIASES = data["biases"]
 
-        indx_w = 0
+            indx_w = 0
 
-        for indx_b,  neuron in enumerate(self.network.get_neurons()):
-            # set the bias
-            neuron.bias = BIASES[indx_b]
+            for indx_b,  neuron in enumerate(self.network.get_neurons()):
+                # set the bias
+                neuron.bias = BIASES[indx_b]
 
-            # set the weights
-            for _w in range(neuron.INPTS_N):
-                neuron.weights[_w] = WEIGHTS[indx_w]
-                indx_w += 1
+                # set the weights
+                for _w in range(neuron.INPTS_N):
+                    neuron.weights[_w] = WEIGHTS[indx_w]
+                    indx_w += 1
+
+        except:
+            print("data import error")
 
     def export_data(self, path="export.json"):
         NEURONS = self.network.get_neurons()

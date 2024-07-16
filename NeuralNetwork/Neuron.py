@@ -2,7 +2,7 @@ from .Funcs import Funcs
 from random import random
 
 INIT_VAL = 1
-LEARNING_RATE = 1
+
 
 class Neuron:
     def __init__(self, wn, activation=None):
@@ -18,7 +18,6 @@ class Neuron:
 
         #
         self.latest_inputs = None
-        self.learning_rate = LEARNING_RATE
 
     def _get_output(self, vals):
         # VALS = vals.__len__()
@@ -69,23 +68,31 @@ class Neuron:
         # get the max to see what to do
 
         max_inpt = max(INPTS)
+        max_abs_inpt = max([abs(_) for _ in INPTS])
+
         max_weight = max(WEIGHTS)
+        max_abs_weight = max([abs(_) for _ in WEIGHTS])
 
         # go back to the previous layer
         # or no previous layer
-        BACK = (False not in [max_inpt > _ for _ in [
-                max_weight, BIAS]]) and current_layer_indx > 0
+        BACK = (False not in [max_abs_inpt > _ for _ in [
+                max_abs_weight, abs(BIAS)]]) and current_layer_indx > 0
 
         if not BACK:
-            if BIAS > max_weight:
+            if abs(BIAS) > max_abs_weight:
+                max_weight = max_weight if max_weight == max_abs_weight else -max_abs_weight
                 # update the bias
-                self.bias -= BIAS*self.learning_rate
+                self.bias -= BIAS
             else:
                 # update the weight
+                max_weight = max_weight if max_weight == max_abs_weight else -max_abs_weight
+
                 self.weights[WEIGHTS.index(
-                    max_weight)] -= max_weight*self.learning_rate
+                    max_weight)] -= max_weight
 
         else:
+            max_inpt = max_inpt if max_inpt == max_abs_inpt else -max_abs_inpt
+
             inpt_indx = INPTS.index(max_inpt)
             target_nrn = layers[current_layer_indx -
                                 1].get_neurons()[inpt_indx]

@@ -32,6 +32,8 @@ def gen_combs():
 
     return rslt
 
+    return cmbs
+
 
 def is_win(val):
     for cmb in WINS:
@@ -46,16 +48,17 @@ def is_win(val):
     return False
 
 
-ntwrk = Network([9, 9, 2], NetworkFuncs.RELU)
+ntwrk = Network([9, 6, 6, 2], NetworkFuncs.RELU)
 
 inout = InOut(ntwrk)
 inout.import_data("data/export.json")
 
-"""
+
 COMBS = gen_combs()
 for cmb in COMBS:
     print(cmb)
     rslt = ntwrk.forward_propg(cmb)
+    #print(NetworkFuncs.SOFTMAX(rslt))
 
     expect = [0, 1]
     if is_win(cmb):
@@ -64,25 +67,20 @@ for cmb in COMBS:
     ntwrk.backward_propg(expect, rslt)
 
 inout.export_data("data/export.json")
+
+
 """
-
-
-cmb = [1, 0, 1, 0, 1, 0, 0, 0, 0]
+cmb = [
+    0, 1, 0,
+    0, 1, 0,
+    1, 0, 0
+]
 rslt = ntwrk.forward_propg(cmb)
 
 print(cmb)
 print(rslt)
 print(f"win: {rslt[0] > rslt[1]}")
+print(f"diga: {is_win(cmb) != rslt[0] > rslt[1]}")
 
-
-ntwrk.backward_propg([0, 1])
-
-
-rslt = ntwrk.forward_propg(cmb)
-
-print(cmb)
-print(rslt)
-print(f"win: {rslt[0] > rslt[1]}")
-
-
-inout.export_data("data/export.json")
+# inout.export_data("data/export.json")
+"""
