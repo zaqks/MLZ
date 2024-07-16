@@ -16,6 +16,9 @@ class Neuron:
         self.INPTS_N = wn
         self.ACTIVATION = activation
 
+        #
+        self.latest_inputs = None
+
     def _get_output(self, vals):
         # VALS = vals.__len__()
         """
@@ -23,6 +26,10 @@ class Neuron:
         to raise an error on incomplete input 
         and ignore the excess
         """
+
+        # save the input
+        self.latest_inputs = vals
+        #
 
         rslt = 0
 
@@ -42,10 +49,25 @@ class Neuron:
 
         return func(self._get_output(vals))
 
-
     # backprop
+
     def back_prop(self, expct):
+        ERR = self.get_activated_output(self.latest_inputs) - expct
+
+        # weight influences
+        WEIGHTS_INF = self.latest_inputs
+        for w_i in WEIGHTS_INF:
+            w_i = ERR/w_i
+
+            print(f"w_i {w_i}")
+
+        # inputs influences
+        INPTS_INF = self.weights
+        for i_i in INPTS_INF:
+            i_i = ERR/i_i
+
+            print(f"i_i {i_i}")
+
+        # bias influence
+        b_i = ERR
         
-
-
-        pass
