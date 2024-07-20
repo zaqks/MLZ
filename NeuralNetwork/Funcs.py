@@ -1,6 +1,9 @@
 from math import expm1 as exp, log
 
 
+
+
+
 class Funcs:
 
     def SOFTMAX(inpt):
@@ -20,7 +23,6 @@ class Funcs:
         return max(0, val)
 
     def SIGMOID(x):
-
         return 1 / (1 + exp(-x))
 
         # except OverflowError or ZeroDivisionError:

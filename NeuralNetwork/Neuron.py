@@ -80,7 +80,7 @@ class Neuron:
 
         if not BACK:
             if abs(BIAS) > max_abs_weight:
-                max_weight = max_weight if max_weight == max_abs_weight else -max_abs_weight
+                #max_weight = max_weight if max_weight == max_abs_weight else -max_abs_weight
                 # update the bias
                 self.bias -= BIAS
             else:
