@@ -25,5 +25,6 @@ for cmb in CMBS[:2]:
     expect = [int(cmb[-1] == 1), int(cmb[-1] == 0)]
     print(f"expect: {expect} [odd, even]")
     print("-----------------")
-    
+
+
     break
