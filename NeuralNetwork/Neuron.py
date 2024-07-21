@@ -4,6 +4,23 @@ from random import random
 INIT_VAL = 1
 
 
+class Correction:
+    def __init__(self, val):
+        self.abs_val = abs(val)
+        self.val = val
+
+
+class Corrections:
+    def __init__(self, lst):
+        self.lst = lst
+
+    def get_max_correction(self):
+        abs_vals = [crct.abs_val for crct in self.lst]
+        indx = self.abs_vals.index(max(abs_vals))
+
+        return lst[indx]
+
+
 class Neuron:
     def __init__(self, wn, activation=None):
         self.weights = [INIT_VAL for _ in range(wn)]
@@ -52,35 +69,35 @@ class Neuron:
     # backprop
 
     def back_prop(self, expct, layers, current_layer_indx):
-
         # ERR = self.get_activated_output(self.latest_inputs) - expct
         ERR = self._get_output(self.latest_inputs) - expct
 
-        BIAS = ERR  # bias correction
+        # bias correction
+        BIAS = Correction(ERR)
+
         # weight corrections
-        WEIGHTS = [ERR/i if i else 0 for i in self.latest_inputs]
-        INPTS = [ERR/i if i else 0 for i in self.weights]  # inputs corrections
+        WEIGHTS = [Correction(ERR/i if i else 0) for i in self.latest_inputs]
+
+        # inputs corrections
+        INPTS = [Correction(ERR/i if i else 0)
+                 for i in self.weights]
 
         # print(f"BIAS CORRECTION {BIAS}")
         # print(f"WEIGHTS CORRECTION {WEIGHTS}")
         # print(f"INPTS CORRECTION {INPTS}")
 
-        # get the max to see what to do
-
-        max_inpt = max(INPTS)
-        max_abs_inpt = max([abs(_) for _ in INPTS])
-
-        max_weight = max(WEIGHTS)
-        max_abs_weight = max([abs(_) for _ in WEIGHTS])
+        # get the max correction to see what to do
+        max_inpt = Corrections(INPTS).get_max_correction()
+        max_weight = Corrections(WEIGHTS).get_max_correction()
 
         # go back to the previous layer
         # or no previous layer
         BACK = (False not in [max_abs_inpt > _ for _ in [
-                max_abs_weight, abs(BIAS)]]) and current_layer_indx > 0
+                max_abs_weight, BIAS.abs_val]]) and current_layer_indx > 0
 
         if not BACK:
-            if abs(BIAS) > max_abs_weight:
-                #max_weight = max_weight if max_weight == max_abs_weight else -max_abs_weight
+            if BIAS.abs_val > max_abs_weight:
+                # max_weight = max_weight if max_weight == max_abs_weight else -max_abs_weight
                 # update the bias
                 self.bias -= BIAS
             else:
