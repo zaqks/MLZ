@@ -22,7 +22,7 @@ class Corrections:
 
 
 class Neuron:
-    def __init__(self, wn, activation=None):
+    def __init__(self, wn,   activation=None, rw=None, cl=None,):
         self.weights = [INIT_VAL for _ in range(wn)]
         self.bias = INIT_VAL
 
@@ -35,6 +35,10 @@ class Neuron:
 
         #
         self.latest_inputs = None
+
+        # Row Column
+        self.rw = rw
+        self.cl = cl
 
     def _get_output(self, vals):
         # VALS = vals.__len__()
@@ -68,9 +72,27 @@ class Neuron:
 
     # backprop
 
-    def back_prop(self, expct, layers, current_layer_indx):
+    def back_prop(self, expct, layers, came_from=None):
+        # Calibrate the previous layer to keep constant inpts
+        # get the expected value which is our new neuron output
+        # calibrate the next layer's weights comming from this neuron
+        # expect the neuron we came from
+
+        # chouf the neuron u came from first X
+        CURRENT_OUTPUT = self._get_output(self.latest_inputs)
+
+        if came_from != None:
+            next_layer = layers[self.cl+1]
+            # get all the concerned weights apart the weight li jit mnou
+            nrns = next_layer.get_neurons()
+
+            for nrn in nrns:
+                if nrn != came_from:
+                    nrn.weights[self.rw] = CURRENT_OUTPUT * \
+                        nrn.weights[self.rw]/expct
+
         # ERR = self.get_activated_output(self.latest_inputs) - expct
-        ERR = self._get_output(self.latest_inputs) - expct
+        ERR = CURRENT_OUTPUT - expct
 
         # weight corrections
         WEIGHTS = [Correction(ERR/i if i else 0) for i in self.latest_inputs]
@@ -91,7 +113,7 @@ class Neuron:
         # go back to the previous layer
         # or no previous layer
         BACK = (False not in [max_inpt.abs_val > _ for _ in [
-                max_weight.abs_val, max_bias.abs_val]]) and current_layer_indx > 0
+                max_weight.abs_val, max_bias.abs_val]]) and self.cl > 0
 
         if not BACK:
             if max_bias.abs_val > max_weight.abs_val:
@@ -105,7 +127,7 @@ class Neuron:
 
         else:
             inpt_indx = INPTS.index(max_inpt)
-            target_nrn = layers[current_layer_indx -
+            target_nrn = layers[self.cl -
                                 1].get_neurons()[inpt_indx]
             target_nrn .back_prop(
-                self.latest_inputs[inpt_indx] - max_inpt.val, layers, current_layer_indx-1)
+                self.latest_inputs[inpt_indx] - max_inpt.val, layers,   came_from=self)

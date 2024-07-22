@@ -8,8 +8,9 @@ class Network:
         previous_layer_ns = layers_ns[0]
         # self.layers.append(Layer(previous_layer_ns, previous_layer_ns))
 
-        for layer_ns in layers_ns[1:]:
-            self.layers.append(Layer(previous_layer_ns, layer_ns, activation))
+        for cl, layer_ns in enumerate(layers_ns[1:]):
+            self.layers.append(
+                Layer(previous_layer_ns, layer_ns, activation, cl=cl))
             previous_layer_ns = layer_ns
 
     def forward_propg(self, inpt):
@@ -32,13 +33,12 @@ class Network:
             print(f"{neuron.weights}")
             print(f"{neuron.bias}")
 
-    def backward_propg(self, expct, rslt=None):
-        if rslt:
-            print(f"rslt: {rslt}")
-            print(f"expct: {expct}")
-            print("-----------------")
+    def backward_propg(self, expct  # , rslt=None
+                       ):
+        # if rslt:
+        #    print(f"rslt: {rslt}")
+        #    print(f"expct: {expct}")
+        #    print("-----------------")
 
         for i, nrn in enumerate(self.layers[-1].get_neurons()):
-            nrn.back_prop(expct[i], self.layers, self.layers.__len__()-1)
-
-    
+            nrn.back_prop(expct[i], self.layers)

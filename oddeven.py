@@ -2,7 +2,7 @@ from NeuralNetwork import Network, InOut, NetworkFuncs
 from COMBSGEN import COMBSGEN
 
 
-ntwrk = Network([2,  2], activation=NetworkFuncs.LINEAR)
+ntwrk = Network([2, 2, 2], activation=NetworkFuncs.LINEAR)
 io = InOut(ntwrk).import_data("data/data.json")
 
 
@@ -20,11 +20,12 @@ for cmb in CMBS[:2]:
 
     print("-----------------")
     print(cmb)
-    print(rslt)    
+    print(rslt)
 
     expect = [int(cmb[-1] == 1), int(cmb[-1] == 0)]
     print(f"expect: {expect} [odd, even]")
     print("-----------------")
 
+    ntwrk.backward_propg(expect)
 
-    break
+    #break
