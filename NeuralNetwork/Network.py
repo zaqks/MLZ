@@ -33,12 +33,17 @@ class Network:
             print(f"{neuron.weights}")
             print(f"{neuron.bias}")
 
-    def backward_propg(self, expct  # , rslt=None
-                       ):
+    def changes_collect(self, expct  # , rslt=None
+                        ):
         # if rslt:
         #    print(f"rslt: {rslt}")
         #    print(f"expct: {expct}")
         #    print("-----------------")
 
         for i, nrn in enumerate(self.layers[-1].get_neurons()):
-            nrn.back_prop(expct[i], self.layers)
+            nrn.change_collect(expct[i], self.layers)
+
+    def back_prop(self):
+        for lyr in self.layers:
+            for nrn in lyr.get_neurons():
+                nrn.apply_changes()

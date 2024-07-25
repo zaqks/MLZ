@@ -1,7 +1,8 @@
 from .Funcs import Funcs
 from random import random
+import math
 
-INIT_VAL = 1
+INIT_VAL = None
 
 
 class Correction:
@@ -40,6 +41,10 @@ class Neuron:
         self.rw = rw
         self.cl = cl
 
+        #
+        self.weight_changes = []
+        self.bias_changes = []
+
     def _get_output(self, vals):
         # VALS = vals.__len__()
         """
@@ -70,9 +75,7 @@ class Neuron:
 
         return func(self._get_output(vals))
 
-    # backprop
-
-    def back_prop(self, expct, layers, came_from=None):
+    def change_collect(self, expct, layers):
         # Calibrate the previous layer to keep constant inpts
         # get the expected value which is our new neuron output
         # calibrate the next layer's weights comming from this neuron
@@ -81,17 +84,9 @@ class Neuron:
         # chouf the neuron u came from first X
         CURRENT_OUTPUT = self._get_output(self.latest_inputs)
 
-        if came_from != None:
-            next_layer = layers[self.cl+1]
-            # get all the concerned weights apart the weight li jit mnou
-            nrns = next_layer.get_neurons()
+        # ERR = math.pow(CURRENT_OUTPUT - expct, 2)
+        # ERR = math.exp(2 * math.log(CURRENT_OUTPUT - expct))
 
-            for nrn in nrns:
-                if nrn != came_from:
-                    nrn.weights[self.rw] = CURRENT_OUTPUT * \
-                        nrn.weights[self.rw]/expct
-
-        # ERR = self.get_activated_output(self.latest_inputs) - expct
         ERR = CURRENT_OUTPUT - expct
 
         # weight corrections
@@ -119,15 +114,55 @@ class Neuron:
             if max_bias.abs_val > max_weight.abs_val:
                 # max_weight = max_weight if max_weight == max_abs_weight else -max_abs_weight
                 # update the bias
-                self.bias -= max_bias.val
+                # self.bias -= max_bias.val
+                self.push_bias_change(max_bias.val)
+
             else:
                 # update the weight
-                self.weights[WEIGHTS.index(
-                    max_weight)] -= max_weight.val
+                change = [0 for _ in range(self.weights.__len__())]
+
+                change[WEIGHTS.index(
+                    max_weight)] = max_weight.val
+
+                self.push_weight_change(change)
 
         else:
             inpt_indx = INPTS.index(max_inpt)
             target_nrn = layers[self.cl -
                                 1].get_neurons()[inpt_indx]
-            target_nrn .back_prop(
-                self.latest_inputs[inpt_indx] - max_inpt.val, layers,   came_from=self)
+            target_nrn .change_collect(
+                self.latest_inputs[inpt_indx] - max_inpt.val, layers)
+
+    def push_weight_change(self, val):
+        self.weight_changes.append(val)
+
+    def push_bias_change(self, val=0):
+        self.bias_changes.append(val)
+
+    def clear_changes(self):
+        self.weight_changes.clear()
+        self.bias_changes.clear()
+
+    def apply_changes(self):
+        # get the averages
+        bias_change = sum(
+            self.bias_changes)/self.bias_changes.__len__() if self.bias_changes.__len__() else 0
+
+        weights_change = [0 for _ in range(self.weights.__len__())]
+
+        for vect in self.weight_changes:
+            for indx, val in enumerate(vect):
+                weights_change[indx] += val
+
+        weights_change = [_/self.weight_changes.__len__() if self.weight_changes.__len__() else 0
+                          for _ in weights_change]
+
+        # apply the changes
+        self.bias -= bias_change
+
+        for indx, val in enumerate(weights_change):
+            self.weights[indx] -= val
+
+        # clear everything
+
+        self.clear_changes()

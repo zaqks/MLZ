@@ -1,4 +1,4 @@
-from math import expm1 as exp, log
+from math import exp, log
 
 
 
@@ -6,8 +6,8 @@ from math import expm1 as exp, log
 
 class Funcs:
 
-    def SOFTMAX(inpt):
-        exps = [exp(i) for i in inpt]
+    def SOFTMAX(inpt):        
+        exps = [exp(i) for i in inpt]        
         exps_sum = sum(exps)
 
         rslt = [i/(exps_sum) for i in exps]
