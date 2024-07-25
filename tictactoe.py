@@ -1,8 +1,8 @@
 from NeuralNetwork import *
 from random import randrange
-from COMBSGEN import CombsGen
+from COMBSGEN import COMBSGEN as CombsGen
 
-
+N = 9
 WINS = [
     [0, 1, 2],
     [3, 4, 5],
@@ -18,10 +18,12 @@ WINS = [
 
 
 def gen_combs():
-    cmbs = CombsGen([0, 1], 9)
+    cmbs = CombsGen([0, 1], N)
     cmbs.gen_perfect()
     cmbs.gen_combs()
     cmbs = cmbs.get_combs()
+
+    
 
     rslt = []
 
@@ -31,8 +33,6 @@ def gen_combs():
             rslt.append(toAdd)
 
     return rslt
-
-    return cmbs
 
 
 def is_win(val):
@@ -48,23 +48,30 @@ def is_win(val):
     return False
 
 
-ntwrk = Network([9, 6, 6, 2], NetworkFuncs.RELU)
+ntwrk = Network([N, N, 2], NetworkFuncs.RELU)
 
 inout = InOut(ntwrk)
 inout.import_data("data/export.json")
 
 
 COMBS = gen_combs()
-for cmb in COMBS:
-    print(cmb)
-    rslt = ntwrk.forward_propg(cmb)
-    #print(NetworkFuncs.SOFTMAX(rslt))
+for i in range(50):
+    for cmb in COMBS:
+        rslt = ntwrk.forward_propg(cmb)
+        # print(NetworkFuncs.SOFTMAX(rslt))
 
-    expect = [0, 1]
-    if is_win(cmb):
-        expect = [1, 0]
+        expect = [0, 1]
+        if is_win(cmb):
+            expect = [1, 0]
 
-    ntwrk.backward_propg(expect, rslt)
+        ntwrk.changes_collect(expect)
+
+        print("-------------------")
+        print(f"cmb {cmb}")
+        print(f"rslt {rslt}")
+        print(f"expect {expect}")
+
+    ntwrk.back_prop()
 
 inout.export_data("data/export.json")
 
