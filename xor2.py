@@ -8,8 +8,9 @@ X = np.reshape([[0, 0], [0, 1], [1, 0], [1, 1]], (4, 2, 1))
 Y = np.reshape([[0], [1], [1], [0]], (4, 1, 1))
 
 
-#ntwrk.train(X, Y)
-#ntwrk.export_params()
-
 ntwrk.import_params()
+
+ntwrk.train(X, Y)
+ntwrk.export_params()
+
 ntwrk.run(X)

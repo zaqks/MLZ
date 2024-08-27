@@ -69,5 +69,6 @@ class Network:
                 weights, bias = data[indx]
                 indx += 1
                 #
-                lyr.weights = weights
-                lyr.bias = bias
+                lyr.weights = np.array(weights)
+                lyr.bias = np.array(bias)
+                
