@@ -1,4 +1,7 @@
 from .dense_layer import Dense
+from orjson import loads, dumps
+
+import numpy as np
 
 
 class Network:
@@ -45,8 +48,26 @@ class Network:
                 output = layer.forward(output)
             print(output)
 
-    def export_params(path):
-        pass
+    def export_params(self, path="export.json"):
+        out = []
+        for lyr in self.layers:
+            if isinstance(lyr, Dense):
+                out.append((lyr.weights.tolist(), lyr.bias.tolist()))
 
-    def import_params(path):
-        pass
+        with open(path, "wb") as f:
+            f.write(dumps(out))
+            f.close()
+
+    def import_params(self, path="export.json"):
+        with open(path, "rb") as f:
+            data = loads(f.read())
+            f.close()
+
+        indx = 0
+        for lyr in self.layers:
+            if isinstance(lyr, Dense):
+                weights, bias = data[indx]
+                indx += 1
+                #
+                lyr.weights = weights
+                lyr.bias = bias
