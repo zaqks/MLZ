@@ -5,17 +5,18 @@ import numpy as np
 
 
 class Network:
-    def __init__(self, dense_inpts_szs, activations, loss):
+    def __init__(self, layers, loss):
+        """
         if dense_inpts_szs.__len__() != activations.__len__():
-            raise Exception("Network not properly defined")
+           raise Exception("Network not properly defined")
 
         dense = [Dense(dense_inpts_szs[i], dense_inpts_szs[i + 1])
                  for i in range(len(dense_inpts_szs) - 1)]
-
+        """
         #
-        self.layers = []
-        for layer, activation in zip(dense, activations):
-            self.layers.extend([layer, activation])
+        self.layers = layers
+        #for layer, activation in zip(dense, activations):
+        #    self.layers.extend([layer, activation])
 
         #
         self.loss = loss
@@ -59,16 +60,19 @@ class Network:
             f.close()
 
     def import_params(self, path="export.json"):
-        with open(path, "rb") as f:
-            data = loads(f.read())
-            f.close()
+        try:
+            with open(path, "rb") as f:
+                data = loads(f.read())
+                f.close()
 
-        indx = 0
-        for lyr in self.layers:
-            if isinstance(lyr, Dense):
-                weights, bias = data[indx]
-                indx += 1
-                #
-                lyr.weights = np.array(weights)
-                lyr.bias = np.array(bias)
-                
+            indx = 0
+            for lyr in self.layers:
+                if isinstance(lyr, Dense):
+                    weights, bias = data[indx]
+                    indx += 1
+                    #
+                    lyr.weights = np.array(weights)
+                    lyr.bias = np.array(bias)
+
+        except:
+            print("import error")
