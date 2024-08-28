@@ -11,11 +11,11 @@ class Dense(Layer):
     def __init__(self, input_size, output_size):
         self.weights = np.random.randn(output_size, input_size)  # input X out
         # random mat 1 X output_size
-        self.bias = np.random.randn(output_size, 1)
+        self.biases = np.random.randn(output_size, 1)
 
     def forward(self, inpt):
         self.input = inpt
-        return np.dot(self.weights, self.input) + self.bias
+        return np.dot(self.weights, self.input) + self.biases
 
     def backward(self, E_Y, a):
         E_X = np.dot(self.weights.T, E_Y)
@@ -24,6 +24,6 @@ class Dense(Layer):
         
         # we update the 2 params
         self.weights -= a*E_W
-        self.bias -= a*E_Y
+        self.biases -= a*E_Y
 
         return E_X
