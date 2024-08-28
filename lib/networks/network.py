@@ -1,4 +1,4 @@
-from .dense_layer import Dense
+from ..layers.dense_layer import Dense
 from orjson import loads, dumps
 
 import numpy as np
@@ -53,7 +53,7 @@ class Network:
         out = []
         for lyr in self.layers:
             if isinstance(lyr, Dense):
-                out.append((lyr.weights.tolist(), lyr.bias.tolist()))
+                out.append((lyr.weights.tolist(), lyr.biases.tolist()))
 
         with open(path, "wb") as f:
             f.write(dumps(out))
@@ -68,11 +68,11 @@ class Network:
             indx = 0
             for lyr in self.layers:
                 if isinstance(lyr, Dense):
-                    weights, bias = data[indx]
+                    weights, biases = data[indx]
                     indx += 1
                     #
                     lyr.weights = np.array(weights)
-                    lyr.bias = np.array(bias)
+                    lyr.biases = np.array(biases)                            
 
         except:
             print("import error")

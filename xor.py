@@ -14,7 +14,7 @@ Y = np.reshape([[0], [1], [1], [0]], (4, 1, 1))
 
 ntwrk.import_params()
 
-ntwrk.train(X, Y, epochs=10000)
-ntwrk.export_params()
+#ntwrk.train(X, Y, epochs=10000)
+#ntwrk.export_params()
 
 ntwrk.run(X)
