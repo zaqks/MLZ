@@ -28,6 +28,8 @@ class Convolutional(Layer):
 
 
     def forward(self, inpt):
+        print(inpt.shape)
+
         self.input = inpt
         self.output = np.copy(self.biases)
 

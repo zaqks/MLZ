@@ -6,7 +6,7 @@
 
 <h2>Example 1 (XOR)</h2>
 
-```
+```py
 from MLib import *
 
 ntwrk = Network(layers=[
