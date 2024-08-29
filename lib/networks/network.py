@@ -49,7 +49,7 @@ class Network:
                 output = layer.forward(output)
             print(output)
 
-    def export_params(self, path="export.json"):
+    def export_wb(self, path="export_wb.json"):
         out = []
         for lyr in self.layers:
             if isinstance(lyr, Dense):
@@ -59,7 +59,7 @@ class Network:
             f.write(dumps(out))
             f.close()
 
-    def import_params(self, path="export.json"):
+    def import_wb(self, path="export_wb.json"):
         try:
             with open(path, "rb") as f:
                 data = loads(f.read())
@@ -72,6 +72,36 @@ class Network:
                     indx += 1
                     #
                     lyr.weights = np.array(weights)
+                    lyr.biases = np.array(biases)                            
+
+        except:
+            print("import error")
+
+
+
+    def export_kb(self, path="export_kb.json"):
+        out = []
+        for lyr in self.layers:
+            if isinstance(lyr, Dense):
+                out.append((lyr.kernels.tolist(), lyr.biases.tolist()))
+
+        with open(path, "wb") as f:
+            f.write(dumps(out))
+            f.close()
+
+    def import_kb(self, path="export_kb.json"):
+        try:
+            with open(path, "rb") as f:
+                data = loads(f.read())
+                f.close()
+
+            indx = 0
+            for lyr in self.layers:
+                if isinstance(lyr, Dense):
+                    kernels, biases = data[indx]
+                    indx += 1
+                    #
+                    lyr.kernels = np.array(kernels)
                     lyr.biases = np.array(biases)                            
 
         except:

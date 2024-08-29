@@ -21,11 +21,11 @@ Y = np.reshape([[0], [1], [1], [0]], (4, 1, 1))
 
 
 # import params
-ntwrk.import_params()
+ntwrk.import_wb()
 
 # train
 ntwrk.train(X, Y, epochs=10000)
-ntwrk.export_params()
+ntwrk.export_wb()
 
 # run to test
 ntwrk.run(np.reshape([[1, 0]], (2, 1)))
