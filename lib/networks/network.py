@@ -41,8 +41,8 @@ class Network:
             error /= len(X)
             print(f"{e+1}/{epochs} error={error}")
 
-    def run(self, X):
-        for x in X:
+    def run(self, x):
+        #for x in X:
             # forward
             output = x
             for layer in self.layers:
