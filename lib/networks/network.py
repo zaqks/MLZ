@@ -1,4 +1,6 @@
 from ..layers.dense_layer import Dense
+from ..layers.convolutional_layer import Convolutional
+
 from orjson import loads, dumps
 
 import numpy as np
@@ -49,17 +51,23 @@ class Network:
                 output = layer.forward(output)
             print(output)
 
-    def export_wb(self, path="export_wb.json"):
+    def export_params(self, path="export.json"):
         out = []
         for lyr in self.layers:
+
             if isinstance(lyr, Dense):
-                out.append((lyr.weights.tolist(), lyr.biases.tolist()))
+                _ = lyr.weights.tolist()
+            elif isinstance(lyr, Convolutional):
+                _ = lyr.kernels.tolist()
+
+            out.append((_, lyr.biases.tolist()))
+
 
         with open(path, "wb") as f:
             f.write(dumps(out))
             f.close()
 
-    def import_wb(self, path="export_wb.json"):
+    def import_params(self, path="export.json"):
         try:
             with open(path, "rb") as f:
                 data = loads(f.read())
@@ -67,42 +75,23 @@ class Network:
 
             indx = 0
             for lyr in self.layers:
+                _, biases = data[indx]            
+                
+                _ = np.array(_)
+                biases = np.array(biases)
+                
+                lyr.biases = biases
+
                 if isinstance(lyr, Dense):
-                    weights, biases = data[indx]
-                    indx += 1
-                    #
-                    lyr.weights = np.array(weights)
-                    lyr.biases = np.array(biases)                            
+                    lyr.weights = _
+                elif isinstance(lyr, Convolutional):
+                    lyr.kernels = _
+
+                
+                indx += 1                    
+                                                                    
 
         except:
             print("import error")
 
-
-
-    def export_kb(self, path="export_kb.json"):
-        out = []
-        for lyr in self.layers:
-            if isinstance(lyr, Dense):
-                out.append((lyr.kernels.tolist(), lyr.biases.tolist()))
-
-        with open(path, "wb") as f:
-            f.write(dumps(out))
-            f.close()
-
-    def import_kb(self, path="export_kb.json"):
-        try:
-            with open(path, "rb") as f:
-                data = loads(f.read())
-                f.close()
-
-            indx = 0
-            for lyr in self.layers:
-                if isinstance(lyr, Dense):
-                    kernels, biases = data[indx]
-                    indx += 1
-                    #
-                    lyr.kernels = np.array(kernels)
-                    lyr.biases = np.array(biases)                            
-
-        except:
-            print("import error")
+ 
