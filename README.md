@@ -1,7 +1,9 @@
+<img src="https://github.com/zaqks/NeuralNetwork/blob/b11295b03b2e7b81d5386c4bbac8f9ce7b8e29cd/docs/logo.svg" width="100%">
+
 # Machine Learning library
 
 
-# Example 1
+<h2>Example 1 (XOR)</h2>
 
 ```
 from MLib import *
