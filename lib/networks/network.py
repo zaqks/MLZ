@@ -57,10 +57,11 @@ class Network:
 
             if isinstance(lyr, Dense):
                 _ = lyr.weights.tolist()
+                out.append((_, lyr.biases.tolist()))
             elif isinstance(lyr, Convolutional):
                 _ = lyr.kernels.tolist()
-
-            out.append((_, lyr.biases.tolist()))
+                out.append((_, lyr.biases.tolist()))
+            
 
 
         with open(path, "wb") as f:
@@ -68,30 +69,37 @@ class Network:
             f.close()
 
     def import_params(self, path="export.json"):
-        try:
+        
             with open(path, "rb") as f:
                 data = loads(f.read())
                 f.close()
 
             indx = 0
-            for lyr in self.layers:
-                _, biases = data[indx]            
+            for lyr in self.layers:                
                 
-                _ = np.array(_)
-                biases = np.array(biases)
                 
-                lyr.biases = biases
-
+                
+                            
                 if isinstance(lyr, Dense):
+                    _, biases = data[indx]            
+                    _ = np.array(_)
+                    biases = np.array(biases)
+
                     lyr.weights = _
+                    lyr.biases = biases
+                    indx += 1
+
                 elif isinstance(lyr, Convolutional):
+                    _, biases = data[indx]            
+                    _ = np.array(_)
+                    biases = np.array(biases)
+
                     lyr.kernels = _
+                    lyr.biases = biases
+                    indx += 1
 
                 
-                indx += 1                    
+                                    
                                                                     
-
-        except:
-            print("import error")
 
  
