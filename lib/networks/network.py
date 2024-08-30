@@ -50,6 +50,7 @@ class Network:
             for layer in self.layers:
                 output = layer.forward(output)
             print(output)
+            return output
 
     def export_params(self, path="export.json"):
         out = []
@@ -88,6 +89,7 @@ class Network:
                     lyr.weights = _
                     lyr.biases = biases
                     indx += 1
+                    
 
                 elif isinstance(lyr, Convolutional):
                     _, biases = data[indx]            
@@ -97,6 +99,8 @@ class Network:
                     lyr.kernels = _
                     lyr.biases = biases
                     indx += 1
+                    
+
 
                 
                                     
