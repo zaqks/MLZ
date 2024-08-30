@@ -39,6 +39,7 @@ class Network:
 
                 # err
                 error += self.loss.func(y, output)
+                
 
             error /= len(X)
             print(f"{e+1}/{epochs} error={error}")
@@ -49,7 +50,7 @@ class Network:
             output = x
             for layer in self.layers:
                 output = layer.forward(output)
-            print(output)
+            #print(output)
             return output
 
     def export_params(self, path="export.json"):
