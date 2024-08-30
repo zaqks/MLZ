@@ -70,7 +70,7 @@ class Network:
             f.close()
 
     def import_params(self, path="export.json"):
-        
+        try:
             with open(path, "rb") as f:
                 data = loads(f.read())
                 f.close()
@@ -102,8 +102,9 @@ class Network:
                     
 
 
-                
+            print("params import success")        
                                     
-                                                                    
+        except:
+            print("params import error")                            
 
  
