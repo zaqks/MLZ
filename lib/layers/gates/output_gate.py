@@ -16,7 +16,7 @@ class Output_gate(gate):
         h_prev :(N, H)
         """
         
-        o_t = self.Sigmoid(np.dot(x_t, self.Wxo) + np.dot(h_prev, self.Who) + self.bo)
+        o_t = Sigmoid().activation(np.dot(x_t, self.Wxo) + np.dot(h_prev, self.Who) + self.bo)
         return o_t #Shape: (N, H)
 
     def backward(self, dL_dht, c_t):
@@ -25,5 +25,5 @@ class Output_gate(gate):
         dL_dht :Grad L /grad h_t; Shape: (N, H)
         """
         
-        dL_do = dL_dht * tanh(c_t) #type:ignore
+        dL_do = dL_dht * TanH().activation(c_t)
         return dL_do #Shape:(N,H)

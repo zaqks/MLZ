@@ -18,7 +18,7 @@ class Input_gate(gate):
         x_t : (N, D)
         h_prev : (N, H)
         """
-        i_t = self.Sigmoid(np.dot(x_t, self.Wxi) + np.dot(h_prev, self.Whi) + self.bi)
+        i_t = Sigmoid().activation(np.dot(x_t, self.Wxi) + np.dot(h_prev, self.Whi) + self.bi)
         return i_t #Shape: (N, H)
 
     def backward(self, dL_dc, dL_dht, o_t, x_t, h_prev,c_t):
@@ -28,5 +28,5 @@ class Input_gate(gate):
         dL_dc : Grad L /grad c_t; Shape: (N, H)
         dL_dht : Grad L /grad h_t; Shape: (N, H)
         """        
-        dL_di = dL_dc * (tanh(np.dot(x_t, self.Wxi) + np.dot(h_prev, self.Whi))) + dL_dht * o_t * tanh_prime(c_t) #type:ignore
+        dL_di = dL_dc * (TanH().activation(np.dot(x_t, self.Wxi) + np.dot(h_prev, self.Whi))) + dL_dht * o_t * TanH().activation_prime(c_t) 
         return dL_di #Shape:(N,H)

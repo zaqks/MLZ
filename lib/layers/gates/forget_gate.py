@@ -12,7 +12,7 @@ class forget_gate(gate):
 
   
      def forward(self, x_t, h_prev):  
-         f_t = self.sigmoid(np.dot(x_t, self.Wxf) + np.dot(h_prev, self.Whf) + self.bf)
+         f_t = Sigmoid().activation(np.dot(x_t, self.Wxf) + np.dot(h_prev, self.Whf) + self.bf)
          #should i use multiply?
          return f_t #Shape: (N, H)
 
@@ -24,5 +24,5 @@ class forget_gate(gate):
         dL_dc_next :Grad L/ grad c_t; Shape: (N, H) (from next step)
         c_t,c_prev :(N, H)
         """
-        dL_df = dL_dht * tanh(c_prev) + dL_dc_next * tanh_prime(c_t) # type: ignore
+        dL_df = dL_dht * TanH().activation(c_prev) + dL_dc_next * TanH().activation_prime(c_t) # type: ignore
         return dL_df #Shape: (N, H)
