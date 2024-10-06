@@ -2,7 +2,7 @@
 
 
 # Machine Learning library (ML stands for MeLo)
-    
+# Training Plotting    
 
 <h2>Example 1 (XOR)</h2>
 
