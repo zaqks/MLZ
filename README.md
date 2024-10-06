@@ -2,7 +2,7 @@
 
 
 # Machine Learning library (ML stands for MeLo)
-    
+# RNN integration    
 
 <h2>Example 1 (XOR)</h2>
 
