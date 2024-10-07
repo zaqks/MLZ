@@ -25,7 +25,7 @@ class Network:
 
     def train(self, X, Y, a=0.1, epochs=10000, plot=False):
         # for plot
-        if plot:            
+        if plot:
             fig, ax = plt.subplots()
 
             ax.set_xlim(0, epochs)
@@ -68,7 +68,7 @@ class Network:
                 plt.draw()
                 plt.pause(0.001)
 
-        if plot:            
+        if plot:
             plt.show()
 
     def run(self, x):
