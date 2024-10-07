@@ -7,7 +7,18 @@
 <h2>Example 1 (XOR)</h2>
 
 ```py
-from MLib import *
+from lib.networks.network import *
+
+from lib.layers.dense_layer import Dense
+from lib.layers.convolutional_layer import Convolutional
+from lib.layers.reshape_layer import Reshape
+
+from lib.layers.activations.activation_layer import *
+from lib.losses.loss import *
+
+# the imports are relative to the lib dir for testing purposes ONLY, otherwise import the module since it's defined in __init__.py
+
+
 
 ntwrk = Network(layers=[
     Dense(2, 3),
@@ -24,7 +35,7 @@ Y = np.reshape([[0], [1], [1], [0]], (4, 1, 1))
 ntwrk.import_params()
 
 # train
-ntwrk.train(X, Y, epochs=10000)
+ntwrk.train(X, Y, epochs=100, plot=True)
 ntwrk.export_params()
 
 # run to test
