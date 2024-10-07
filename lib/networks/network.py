@@ -66,7 +66,7 @@ class Network:
 
                 line.set_data(X_axis, Y_axis)
                 plt.draw()
-                plt.pause(a)
+                plt.pause(0.001)
 
         if plot:            
             plt.show()
