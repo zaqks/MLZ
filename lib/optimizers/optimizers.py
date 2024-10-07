@@ -7,7 +7,7 @@ class GradientDescent(BaseOptimizer):
         super().__init__(formula)
 
 
-class AdamOptimizer(BaseOptimizer):
+class MomentumOptimizer(BaseOptimizer):
     def __init__(self):
         def formula(a, g):
             return

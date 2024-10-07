@@ -54,6 +54,7 @@ class Network:
 
                 # back
                 grad = self.loss.prime(y, output)
+
                 for layer in reversed(self.layers):
                     grad = layer.backward(grad, a)
 
