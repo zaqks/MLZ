@@ -14,8 +14,8 @@ class BaseOptimizer:
         self.s = None  # w, b, k
 
     def init_grads(self, w, b, k):
-        if None in [self.v, self.s]:
+        if None in [self.v, self.s]:            
             args = [w, b, k]
-            for _ in range(3):
-                self.v = args
-                self.s = args
+            
+            self.v = args
+            self.s = args
