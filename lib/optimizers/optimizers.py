@@ -10,7 +10,7 @@ class GradientDescent(BaseOptimizer):
 class MomentumOptimizer(BaseOptimizer):
     def __init__(self):
         def formula(a, d_0, indx):
-            
+
             # calculate the new v_w and v_b
             self.v[indx] = self.B1*self.v[indx] + (1-self.B1)*d_0
 
