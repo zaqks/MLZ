@@ -1,5 +1,6 @@
 from ..layers.dense_layer import Dense
 from ..layers.convolutional_layer import Convolutional
+from ..optimizers.optimizers import GradientDescent
 
 from orjson import loads, dumps
 import matplotlib.pyplot as plt
@@ -7,7 +8,7 @@ import numpy as np
 
 
 class Network:
-    def __init__(self, layers, loss):
+    def __init__(self, layers, loss, optimizer=GradientDescent()):
         """
         if dense_inpts_szs.__len__() != activations.__len__():
            raise Exception("Network not properly defined")
@@ -17,6 +18,8 @@ class Network:
         """
         #
         self.layers = layers
+        for _ in self.layers:
+            _.optimizer = optimizer
         # for layer, activation in zip(dense, activations):
         #    self.layers.extend([layer, activation])
 
@@ -35,7 +38,7 @@ class Network:
 
             plt.xlabel("epch")
             plt.ylabel("err")
-            plt.title("training ev")
+            plt.title(f"training a={a}")
 
             X_axis = []
             Y_axis = []

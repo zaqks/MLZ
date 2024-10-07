@@ -6,3 +6,6 @@ from .lib.layers.reshape_layer import Reshape
 
 from .lib.layers.activations.activation_layer import *
 from .lib.losses.loss import *
+
+
+from .lib.optimizers.optimizers import *
