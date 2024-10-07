@@ -24,8 +24,8 @@ Y = np.reshape([[0], [1], [1], [0]], (4, 1, 1))
 ntwrk.import_params()
 
 # train
-ntwrk.train(X, Y, epochs=10000)
-ntwrk.export_params()
+ntwrk.train(X, Y, epochs=100, plot=True)
+#ntwrk.export_params()
 
 # run to test
-ntwrk.run(np.reshape([[1, 0]], (2, 1)))
+#ntwrk.run(np.reshape([[1, 0]], (2, 1)))

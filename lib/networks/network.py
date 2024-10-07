@@ -2,7 +2,7 @@ from ..layers.dense_layer import Dense
 from ..layers.convolutional_layer import Convolutional
 
 from orjson import loads, dumps
-
+import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -17,13 +17,15 @@ class Network:
         """
         #
         self.layers = layers
-        #for layer, activation in zip(dense, activations):
+        # for layer, activation in zip(dense, activations):
         #    self.layers.extend([layer, activation])
 
         #
         self.loss = loss
 
-    def train(self, X, Y, a=0.1, epochs=10000):
+    def train(self, X, Y, a=0.1, epochs=10000, plot=False):
+        errs = []
+
         for e in range(epochs):
             error = 0
             for x, y in zip(X, Y):
@@ -39,19 +41,36 @@ class Network:
 
                 # err
                 error += self.loss.func(y, output)
-                
 
             error /= len(X)
             print(f"{e+1}/{epochs} error={error}")
 
+            if plot:
+                errs.append(errs)
+
+        if plot:
+            X = [0, 1, 2]
+            Y = [0, 1, 2]
+
+            plt.plot(X, Y)            
+            
+            plt.xlabel("epch")
+            plt.ylabel("err")            
+
+            plt.title("training ev")
+
+            plt.show()
+
+
+
     def run(self, x):
-        #for x in X:
-            # forward
-            output = x
-            for layer in self.layers:
-                output = layer.forward(output)
-            #print(output)
-            return output
+        # for x in X:
+        # forward
+        output = x
+        for layer in self.layers:
+            output = layer.forward(output)
+        # print(output)
+        return output
 
     def export_params(self, path="export.json"):
         out = []
@@ -63,8 +82,6 @@ class Network:
             elif isinstance(lyr, Convolutional):
                 _ = lyr.kernels.tolist()
                 out.append((_, lyr.biases.tolist()))
-            
-
 
         with open(path, "wb") as f:
             f.write(dumps(out))
@@ -77,35 +94,27 @@ class Network:
                 f.close()
 
             indx = 0
-            for lyr in self.layers:                
-                
-                
-                
-                            
+            for lyr in self.layers:
+
                 if isinstance(lyr, Dense):
-                    _, biases = data[indx]            
+                    _, biases = data[indx]
                     _ = np.array(_)
                     biases = np.array(biases)
 
                     lyr.weights = _
                     lyr.biases = biases
                     indx += 1
-                    
 
                 elif isinstance(lyr, Convolutional):
-                    _, biases = data[indx]            
+                    _, biases = data[indx]
                     _ = np.array(_)
                     biases = np.array(biases)
 
                     lyr.kernels = _
                     lyr.biases = biases
                     indx += 1
-                    
 
+            print("params import success")
 
-            print("params import success")        
-                                    
         except:
-            print("params import error")                            
-
- 
+            print("params import error")
