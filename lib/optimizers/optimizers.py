@@ -6,3 +6,10 @@ class GradientDescent(BaseOptimizer):
         def formula(a, g): return a*g
         super().__init__(formula)
 
+
+class AdamOptimizer(BaseOptimizer):
+    def __init__(self):
+        def formula(a, g):
+            return
+
+        super().__init__(formula)
