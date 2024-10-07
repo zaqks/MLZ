@@ -24,8 +24,23 @@ class Network:
         self.loss = loss
 
     def train(self, X, Y, a=0.1, epochs=10000, plot=False):
-        errs = []
+        # for plot
+        if plot:            
+            fig, ax = plt.subplots()
 
+            ax.set_xlim(0, epochs)
+            ax.set_ylim(0, 1)
+
+            line, = ax.plot([], [], lw=2)
+
+            plt.xlabel("epch")
+            plt.ylabel("err")
+            plt.title("training ev")
+
+            X_axis = []
+            Y_axis = []
+
+        #
         for e in range(epochs):
             error = 0
             for x, y in zip(X, Y):
@@ -46,22 +61,15 @@ class Network:
             print(f"{e+1}/{epochs} error={error}")
 
             if plot:
-                errs.append(errs)
+                X_axis.append(e)
+                Y_axis.append(error)
 
-        if plot:
-            X = [0, 1, 2]
-            Y = [0, 1, 2]
+                line.set_data(X_axis, Y_axis)
+                plt.draw()
+                plt.pause(a)
 
-            plt.plot(X, Y)            
-            
-            plt.xlabel("epch")
-            plt.ylabel("err")            
-
-            plt.title("training ev")
-
+        if plot:            
             plt.show()
-
-
 
     def run(self, x):
         # for x in X:
