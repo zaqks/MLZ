@@ -1,19 +1,3 @@
-<img src="https://github.com/zaqks/NeuralNetwork/blob/b11295b03b2e7b81d5386c4bbac8f9ce7b8e29cd/docs/logo.svg" width="100%">
-
-
-# Machine Learning library (ML stands for MeLo)
-# Training Plotting    
-# Optimizers (ADAM then SGD)
-
-Adaptive Moment Estimation
-Stochastic Gradient Descent
-
-
-We use Adam first then the SGD for the fine tuning
-
-<h2>Example 1 (XOR)</h2>
-
-```py
 from lib.networks.network import *
 
 from lib.layers.dense_layer import Dense
@@ -40,14 +24,11 @@ Y = np.reshape([[0], [1], [1], [0]], (4, 1, 1))
 
 # import params
 ntwrk.import_params()
+#ntwrk.export_params()
 
 # train
 ntwrk.train(X, Y, epochs=100, plot=True)
-ntwrk.export_params()
+#ntwrk.export_params()
 
 # run to test
 ntwrk.run(np.reshape([[1, 0]], (2, 1)))
-```
-
-
-
