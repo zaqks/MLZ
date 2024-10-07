@@ -16,7 +16,7 @@ ntwrk = Network(layers=[
     Dense(2, 3),
     TanH(),
     Dense(3, 1),
-], loss=Mse(), optimizer=GradientDescent())
+], loss=Mse(), optimizer=MomentumOptimizer())
 
 
 X = np.reshape([[0, 0], [0, 1], [1, 0], [1, 1]], (4, 2, 1))
