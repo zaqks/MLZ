@@ -8,10 +8,6 @@ class Layer:
 
         self.optimizer = optimizer
 
-        self.weights = None
-        self.biases = None
-        self.kernels = None
-
     def forward(self):
         pass
 
@@ -24,12 +20,3 @@ class Layer:
         # a is the learning rate
         pass
 
-    def init_optimizer(self):
-        shps = [
-            self.weights, self.biases, self.kernels
-        ]
-
-        shps = [_.shape if _ else None for _ in shps]
-
-        self.optimizer.init_vs(
-            *shps)

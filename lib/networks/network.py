@@ -26,7 +26,9 @@ class Network:
         for _ in self.layers:
             if not isinstance(_, ActivationLayer):                
                 _.optimizer = optimizer
-                _.init_optimizer()
+                # init
+                _.optimizer.init_vw(_.weights.shape)
+                _.optimizer.init_vb(_.biases.shape)
 
     def train(self, X, Y, a=0.1, epochs=10000, plot=False):
         # for plot
