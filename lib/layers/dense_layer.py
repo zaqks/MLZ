@@ -26,10 +26,7 @@ class Dense(Layer):
 
         E_W = np.dot(E_Y, self.input.T)
 
-        # init the opt v & s
-        # a check is happening here madabik
-        self.optimizer.init_grads(E_W, E_Y, None)        
-
+                
         # we update the 2 params
         self.weights -= self.optimizer.formula(a, E_W, 0)
         self.biases -= self.optimizer.formula(a, E_Y, 1)

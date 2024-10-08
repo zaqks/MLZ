@@ -1,9 +1,10 @@
 from ..optimizers.optimizers import GradientDescent
 
+
 class Layer:
     def __init__(self, optimizer=None):
         self.input = None
-        self.output = None
+        self.output = None        
 
         self.optimizer = optimizer
 
@@ -18,3 +19,7 @@ class Layer:
         # E_Y is the output gradient
         # a is the learning rate
         pass
+
+    def init_optimizer(self):
+        self.optimizer.init_vs(
+            self.weights.shape, self.biases.shape, self.kernels.shape)

@@ -18,13 +18,12 @@ class Network:
         """
         #
         self.layers = layers
+        self.loss = loss
+
+        # opt
         for _ in self.layers:
             _.optimizer = optimizer
-        # for layer, activation in zip(dense, activations):
-        #    self.layers.extend([layer, activation])
-
-        #
-        self.loss = loss
+            _.init_optimizer()
 
     def train(self, X, Y, a=0.1, epochs=10000, plot=False):
         # for plot

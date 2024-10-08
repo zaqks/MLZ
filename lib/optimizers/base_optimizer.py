@@ -1,4 +1,4 @@
-from math import pow
+import numpy as np
 
 
 class BaseOptimizer:
@@ -13,9 +13,10 @@ class BaseOptimizer:
         self.v = None  # w, b, k
         self.s = None  # w, b, k
 
-    def init_grads(self, w, b, k):
-        if None in [self.v, self.s]:            
-            args = [w, b, k]
-            
+    def init_vs(self, w_s, b_s, k_s):
+        if None in [self.v, self.s]:
+            args = [w_s, b_s, k_s]
+            args = [np.zeros(_) for _ in args]
+
             self.v = args
             self.s = args
