@@ -14,9 +14,9 @@ class BaseOptimizer:
         self.s = None  # w, b, k
 
     def init_vs(self, w_s, b_s, k_s):
-        if None in [self.v, self.s]:
-            args = [w_s, b_s, k_s]
-            args = [np.zeros(_) for _ in args]
 
-            self.v = args
-            self.s = args
+        args = [w_s, b_s, k_s]
+        args = [np.zeros(_) if _ else None for _ in args]
+
+        self.v = args
+        self.s = args

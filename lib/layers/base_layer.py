@@ -4,9 +4,13 @@ from ..optimizers.optimizers import GradientDescent
 class Layer:
     def __init__(self, optimizer=None):
         self.input = None
-        self.output = None        
+        self.output = None
 
         self.optimizer = optimizer
+
+        self.weights = None
+        self.biases = None
+        self.kernels = None
 
     def forward(self):
         pass
@@ -21,5 +25,11 @@ class Layer:
         pass
 
     def init_optimizer(self):
+        shps = [
+            self.weights, self.biases, self.kernels
+        ]
+
+        shps = [_.shape if _ else None for _ in shps]
+
         self.optimizer.init_vs(
-            self.weights.shape, self.biases.shape, self.kernels.shape)
+            *shps)

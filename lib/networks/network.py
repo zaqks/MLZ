@@ -1,5 +1,7 @@
 from ..layers.dense_layer import Dense
 from ..layers.convolutional_layer import Convolutional
+from ..layers.activations.activation_base import ActivationLayer
+
 from ..optimizers.optimizers import GradientDescent
 
 from orjson import loads, dumps
@@ -22,8 +24,9 @@ class Network:
 
         # opt
         for _ in self.layers:
-            _.optimizer = optimizer
-            _.init_optimizer()
+            if not isinstance(_, ActivationLayer):                
+                _.optimizer = optimizer
+                _.init_optimizer()
 
     def train(self, X, Y, a=0.1, epochs=10000, plot=False):
         # for plot
