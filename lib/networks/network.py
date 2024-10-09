@@ -20,7 +20,7 @@ class Network:
         """
         #
         self.layers = layers
-        self.loss = loss
+        self.loss = loss()
 
         # opt
         for _ in self.layers:

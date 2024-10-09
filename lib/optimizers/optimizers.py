@@ -17,3 +17,16 @@ class MomentumOptimizer(BaseOptimizer):
             return a*self.v[indx]
 
         super().__init__(formula)
+
+# Root Mean Squared Propagation
+
+
+class RMSPropOptimizer(BaseOptimizer):
+    def __init__(self):
+        def formula(a, d_O, indx):
+            self.s[indx] = self.B2 * self.s[indx] + \
+                (1-self.B2) * np.power(d_O, 2)
+            #
+            return a*d_O/np.sqrt(self.s[indx]+self.E)
+
+        super().__init__(formula)
