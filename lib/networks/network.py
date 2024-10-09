@@ -8,6 +8,7 @@ from orjson import loads, dumps
 import matplotlib.pyplot as plt
 import numpy as np
 
+from os import environ
 
 class Network:
     def __init__(self, layers, loss, optimizer=GradientDescent):
@@ -29,11 +30,12 @@ class Network:
                 # print(opt)
                 _.optimizer = optimizer()
                 # init                                
-                _.optimizer.init_vs(_.weights, _.biases, _.kernels)
+                _.optimizer.init_vs(_.weights, _.biases, _.kernels)                
 
     def train(self, X, Y, a=0.1, epochs=10000, plot=False):
         # for plot
-        if plot:
+        if plot:            
+            environ['QT_QPA_PLATFORM'] = 'xcb'
             fig, ax = plt.subplots()
 
             ax.set_xlim(0, epochs)
@@ -45,6 +47,7 @@ class Network:
             plt.ylabel("err")
             plt.title(f"training a={a}")
 
+            
             X_axis = []
             Y_axis = []
 

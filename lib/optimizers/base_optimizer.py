@@ -16,4 +16,4 @@ class BaseOptimizer:
         args = [np.zeros(_.shape) if type(_) != type(None) else None for _ in [w, b, k]]
 
         self.v = args
-        self.s = args        
+        self.s = args            
