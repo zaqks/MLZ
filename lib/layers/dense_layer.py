@@ -30,4 +30,5 @@ class Dense(Layer):
         # we update the 2 params          
         self.weights -= self.optimizer.formula(a, E_W, 0)
         self.biases -= self.optimizer.formula(a, E_Y, 1)
+        
         return E_X
