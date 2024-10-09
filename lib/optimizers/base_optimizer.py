@@ -8,6 +8,12 @@ class BaseOptimizer:
         self.B1 = 0.9
         self.B2 = 0.999
         self.E = 10e-8
-        
 
+        self.v = None  # w, b, k
+        self.s = None  # w, b, k
 
+    def init_vs(self, w, b, k):                
+        args = [np.zeros(_.shape) if type(_) != type(None) else None for _ in [w, b, k]]
+
+        self.v = args
+        self.s = args        

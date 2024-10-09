@@ -11,11 +11,12 @@ R x C for matrices
 
 class Dense(Layer):
     def __init__(self, input_size, output_size):
-        self.weights = np.random.randn(output_size, input_size)  # input X out
+        # self.weights = np.random.randn(output_size, input_size)  # input X out
         # random mat 1 X output_size
-        self.biases = np.random.randn(output_size, 1)
+        # self.biases = np.random.randn(output_size, 1)
 
-        super().__init__()
+        super().__init__(w=np.random.randn(output_size, input_size),
+                         b=np.random.randn(output_size, 1))
 
     def forward(self, inpt):
         self.input = inpt
@@ -25,7 +26,6 @@ class Dense(Layer):
         E_X = np.dot(self.weights.T, E_Y)
 
         E_W = np.dot(E_Y, self.input.T)
-        
 
         # we update the 2 params
         self.weights -= self.optimizer.formula_w(a, E_W)

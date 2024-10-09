@@ -28,7 +28,7 @@ ntwrk.import_params()
 # ntwrk.export_params()
 
 # train
-ntwrk.train(X, Y, epochs=100, plot=True, a=0.1)
+ntwrk.train(X, Y, epochs=100, plot=True, a=0.5)
 # ntwrk.export_params()
 
 # run to test

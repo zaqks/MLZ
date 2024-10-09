@@ -2,7 +2,7 @@ from ..layers.dense_layer import Dense
 from ..layers.convolutional_layer import Convolutional
 from ..layers.activations.activation_base import ActivationLayer
 
-from ..optimizers.optimizers import GradientDescent
+from ..optimizers.optimizers import GradientDescent, MomentumOptimizer
 
 from orjson import loads, dumps
 import matplotlib.pyplot as plt
@@ -10,7 +10,7 @@ import numpy as np
 
 
 class Network:
-    def __init__(self, layers, loss, optimizer=GradientDescent()):
+    def __init__(self, layers, loss, optimizer=GradientDescent):
         """
         if dense_inpts_szs.__len__() != activations.__len__():
            raise Exception("Network not properly defined")
@@ -24,11 +24,12 @@ class Network:
 
         # opt
         for _ in self.layers:
-            if not isinstance(_, ActivationLayer):                
-                _.optimizer = optimizer
-                # init
-                _.optimizer.init_vw(_.weights.shape)
-                _.optimizer.init_vb(_.biases.shape)
+            if not isinstance(_, ActivationLayer):
+                # opt =  optimizer
+                # print(opt)
+                _.optimizer = MomentumOptimizer()
+                # init                                
+                _.optimizer.init_vs(_.weights, _.biases, _.kernels)
 
     def train(self, X, Y, a=0.1, epochs=10000, plot=False):
         # for plot
