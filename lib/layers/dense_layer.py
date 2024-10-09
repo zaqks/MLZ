@@ -27,7 +27,7 @@ class Dense(Layer):
 
         E_W = np.dot(E_Y, self.input.T)
 
-        # we update the 2 params
-        self.weights -= self.optimizer.formula_w(a, E_W)
-        self.biases -= self.optimizer.formula_b(a, E_Y)
+        # we update the 2 params          
+        self.weights -= self.optimizer.formula(a, E_W, 0)
+        self.biases -= self.optimizer.formula(a, E_Y, 1)
         return E_X
