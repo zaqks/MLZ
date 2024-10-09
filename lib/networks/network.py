@@ -27,7 +27,7 @@ class Network:
             if not isinstance(_, ActivationLayer):
                 # opt =  optimizer
                 # print(opt)
-                _.optimizer = MomentumOptimizer()
+                _.optimizer = optimizer()
                 # init                                
                 _.optimizer.init_vs(_.weights, _.biases, _.kernels)
 
