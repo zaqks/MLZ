@@ -23,12 +23,14 @@ class Network:
         self.layers = layers
         self.loss = loss()
 
+
         # opt
+        self.optimizer = optimizer
         for _ in self.layers:
             if not isinstance(_, ActivationLayer):
                 # opt =  optimizer
                 # print(opt)
-                _.optimizer = optimizer()
+                _.optimizer = self.optimizer()
                 # init                                
                 _.optimizer.init_vs(_.weights, _.biases, _.kernels)                
 
@@ -45,7 +47,7 @@ class Network:
 
             plt.xlabel("epch")
             plt.ylabel("err")
-            plt.title(f"training a={a}")
+            plt.title(f"training a={a} opt={self.optimizer.__name__}")
 
             
             X_axis = []
