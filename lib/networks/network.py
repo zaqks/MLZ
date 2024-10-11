@@ -2,13 +2,16 @@ from ..layers.dense_layer import Dense
 from ..layers.convolutional_layer import Convolutional
 from ..layers.activations.activation_base import ActivationLayer
 
-from ..optimizers.optimizers import GradientDescent, MomentumOptimizer
+from ..optimizers.optimizers import GradientDescent
 
 from orjson import loads, dumps
 import matplotlib.pyplot as plt
 import numpy as np
 
 from os import environ
+from os.path import join
+from time import asctime
+
 
 class Network:
     def __init__(self, layers, loss, optimizer=GradientDescent):
@@ -23,7 +26,6 @@ class Network:
         self.layers = layers
         self.loss = loss()
 
-
         # opt
         self.optimizer = optimizer
         for _ in self.layers:
@@ -31,12 +33,12 @@ class Network:
                 # opt =  optimizer
                 # print(opt)
                 _.optimizer = self.optimizer()
-                # init                                
-                _.optimizer.init_vs(_.weights, _.biases, _.kernels)                
+                # init
+                _.optimizer.init_vs(_.weights, _.biases, _.kernels)
 
-    def train(self, X, Y, a=0.1, epochs=10000, plot=False):
+    def train(self, X, Y, a=0.1, epochs=10000, plot=False, plot_save=None):
         # for plot
-        if plot:            
+        if plot:
             environ['QT_QPA_PLATFORM'] = 'xcb'
             fig, ax = plt.subplots()
 
@@ -47,9 +49,9 @@ class Network:
 
             plt.xlabel("epch")
             plt.ylabel("err")
-            plt.title(f"training a={a} opt={self.optimizer.__name__}")
+            ttl = f"training a={a} opt={self.optimizer.__name__}"
+            plt.title(ttl)
 
-            
             X_axis = []
             Y_axis = []
 
@@ -83,6 +85,9 @@ class Network:
                 plt.pause(1e-3)
 
         if plot:
+            if plot_save:
+                plt.savefig(
+                    join(plot_save, f"{asctime()+ttl}.png".replace(" ", "")))
             plt.show()
 
     def run(self, x):
