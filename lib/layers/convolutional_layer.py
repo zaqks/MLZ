@@ -25,8 +25,7 @@ class Convolutional(Layer):
         self.kernels = np.random.randn(*self.kernels_shape)
         self.biases = np.random.randn(*self.output_shape)
 
-
-    def forward(self, inpt):        
+    def forward(self, inpt):
         self.input = inpt
         self.output = np.copy(self.biases)
 
@@ -45,11 +44,9 @@ class Convolutional(Layer):
         for i in range(self.depth):
             for j in range(self.input_depth):
                 E_K[i, j] = signal.correlate2d(self.input[j], E_Y[i], "valid")
-                E_X [j] += signal.convolve2d(E_Y[i], self.kernels[i, j], "full")
+                E_X[j] += signal.convolve2d(E_Y[i], self.kernels[i, j], "full")
 
-        
-
-        self.kernels -= a*E_K
-        self.biases -= a*E_Y
+        self.kernels -= self.optimizer.formula(a, E_K, 2)
+        self.biases -= self.optimizer.formula(a, E_Y, 1)
 
         return E_X
