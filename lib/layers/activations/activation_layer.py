@@ -19,15 +19,25 @@ class Linear(ActivationLayer):
         super().__init__(linear, linear_prime)
 
 
-
-
 class Sigmoid(ActivationLayer):
     def __init__(self):
         def sig(x):
-            return  1/(1+np.exp(-x))
+            return 1/(1+np.exp(-x))
 
         def sig_prime(x):
             s = sig(x)
             return s*(1-s)
 
         super().__init__(sig, sig_prime)
+
+
+class Relu(ActivationLayer):
+    def __init__(self):
+        def relu(x):
+            x[x<0] = 0
+            return x
+
+        def relu_prime(x):
+            return 0
+
+        super().__init__(relu, relu_prime)
