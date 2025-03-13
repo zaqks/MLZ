@@ -1,9 +1,8 @@
-<img src="https://github.com/zaqks/NeuralNetwork/blob/b11295b03b2e7b81d5386c4bbac8f9ce7b8e29cd/docs/logo.svg" width="100%">
+<img src="docs/logo.svg" width="100%">
 
 
-# Machine Learning library (ML stands for MeLo)
-# Training Plotting    
-# Optimizers (ADAM then SGD)
+# Machine Learning library
+MLZ is a lightweight machine learning library built from scratch using NumPy. It includes implementations of sequential and convolutional neural networks, along with common loss functions and optimizers like Adam. Key features include being NumPy-only, containing layers like Dense, Conv2D, and ReLU, and offering optimizers such as SGD and Adam, all with a modular design to facilitate experimentation and readability.
 
 <h2>Example 1 (XOR)</h2>
 
